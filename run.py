@@ -2,11 +2,11 @@ from typing import List, Tuple
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from Agents import Bandit, EpsilonGreedyAgent
+from Agents import Bandit, EpsilonGreedyAgent, ThomspsonSamplingAgent
 import pandas as pd
 
 
-def compare_epsilons(
+def compare_epsilons_and_TS(
     epsilons: List[float],
     bandits_true_means: List[float],
     timesteps: int,
@@ -21,12 +21,16 @@ def compare_epsilons(
     _, ax1 = plt.subplots()
     for n in range(num_simulations):
         for ag, epsilon in enumerate(epsilons):
-            print("Running epsilon-greedy with epsilon = {} for simulation_num  = {}".format(epsilon, n+1))
-            agent = EpsilonGreedyAgent(bandits=bandits, epsilon=epsilon)
-         #   print(timesteps)
+            if epsilon == "TS":
+                print("Running TS for simulation_num  = {}".format(n+1))
+                agent = ThomspsonSamplingAgent(bandits=bandits)
+            else:
+                print("Running epsilonwith epsilon = {} for simulation_num  = {}".format(epsilon, n+1))
+                agent = EpsilonGreedyAgent(bandits=bandits, epsilon=epsilon)
+            #   print(timesteps)
             rewards, actions = agent.actions(timesteps)
             Agents_rewards[ag]+=rewards  # aadding rewards for averaging
-            ax1.plot(np.divide(Agents_rewards[ag], n+1), label = "epsilon = " + str(epsilon))
+            ax1.plot(np.divide(Agents_rewards[ag], n+1), label = "epsilon = " + str(epsilon) if epsilon !="TS" else "TS")
             ax1.legend()
             for j in range(len(bandits_true_means)):  # loop over all actions to find the Average percentage of each action at a timestep
                 Agents_actions[ag][j] += np.uint8(np.array(actions)==j)
@@ -38,7 +42,7 @@ def compare_epsilons(
         
     return Agents_actions
 
-epsilons = [0, 0.01, 0.1]
+epsilons = [0, 0.01, 0.1, "TS"]
 bandits_means = list(np.random.randn(10)) # 10 bandits sampled from standard normal distribution
 
 # Finding the true optimal action of a particular run with it expected value for each action
@@ -67,13 +71,19 @@ plt.savefig("True_Rewards.png")
 if __name__ == "__main__":
     timesteps = 1500
     num_simulations = 2500
-    Agents_actions = compare_epsilons(epsilons, bandits_means, timesteps, num_simulations)
+    Agents_actions = compare_epsilons_and_TS(epsilons, bandits_means, timesteps, num_simulations)
+    fig, (ax1, ax2) = plt.subplots(figsize = (10,5), ncols= 2) 
     for i in range(len(bandits_means)):
-        plt.plot(np.divide(Agents_actions[1][i], num_simulations)*100, label = "Action = " + str(i))
-    plt.legend()
-    plt.xlabel("Iterations")
-    plt.ylabel("Average Optimal Action Percentage")
-    plt.title("For Greedy agent with epsilon = 0.01")
+        ax1.plot(np.divide(Agents_actions[1][i], num_simulations)*100, label = "Action = " + str(i))
+        ax2.plot(np.divide(Agents_actions[3][i], num_simulations)*100, label = "Action = " + str(i))
+    ax1.legend()
+    ax2.legend()
+    ax1.set_xlabel("Iterations")
+    ax1.set_ylabel("Average Optimal Action Percentage")
+    ax1.set_title("For Greedy agent with epsilon = 0.01")
+    ax2.set_xlabel("Iterations")
+    ax2.set_ylabel("Average Optimal Action Percentage")
+    ax2.set_title("For TS")
     plt.savefig("Optimal_Actions.png")
 
     print("Ranks = ", sort_indices)  # Again printing in the last to see

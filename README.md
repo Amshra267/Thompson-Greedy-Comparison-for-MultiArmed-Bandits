@@ -13,27 +13,27 @@ The reason for choosing these two only is to show the upper and lower bounds as 
 True Reward distribution (Here Action-2 is best)
 </p>
 
-## Greedy(or Epsilon Greedies)
+##  Comparison Greedy(or Epsilon Greedies and TS
 
 we used three different epsilons here for testing
 i.e:<br/>
  - epsilon = 0 => Greedy Agent<br>
  - epsilon = 0.01 => exploration with 1% probability
- - epsilon = 0.1 => exploration with 10% probability
+ - epsilon = 0.1 => exploration with 10% probability</br>
+  
+and TS
 
 
 <p align = "center">
 <b>Averaged Over 2500 independent runs with 1500 timesteps</b></br> 
 <image width = "500" height = "300" src = Comparisons.png></br>
-<b>Comparison Between Epsilons</b></br>
+<b>Comparison</b></br>
 </br>
-<image width = "500" height = "300" src = Optimal_Actions.png><br/>
-<b>Percentage Actions selected for epsilon = 0.01</b></br>
+<image width = "700" height = "300" src = Optimal_Actions.png><br/>
+<b>Percentage Actions selected for epsilon = 0.01 and TS</b></br>
 </br>
 </p>
 
-**1st Conclusion** -> epsilon = 0.01 can be considered best as it is increasing but pretty slow and the percentage Optimal Actions for it is Around 80% means it has more to explore.
+**Conclusion** -> epsilon = 0.01 can be considered best for eps-greedies as it is increasing but pretty slow and the percentage Optimal Actions for it is Around 80% in later stages, on the other hand Thomsan Sampling shows a significant improvement in these results as it quickly explores and then exploit the optimal one with percentage goes upto almost 100 even very early!!.
 
-## Thompson Sampling 
-In this, comparison is performed for Thomspon Sampling with epsilons and Greedy Method to see it's superiority.
-I am taking help from this [Reference](Thompson_Sampling.pdf) for understanding the algo.
+In case you want to know more about TS visit this [Reference](Thompson_Sampling.pdf).

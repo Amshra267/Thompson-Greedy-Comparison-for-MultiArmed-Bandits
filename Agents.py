@@ -130,7 +130,7 @@ class ThomspsonSamplingAgent:
     
     def __init__(self, bandits: List[Bandit]):
         """
-        Constructor for Epsilon Greedy Agent on 10 armed test bed
+        Constructor for Thompson Sampling Agent on 10 armed test bed
         """
         self.bandits = bandits
         # mu_pri and var_pri are hypermaterers for prior distribution

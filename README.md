@@ -1,5 +1,7 @@
 # Exploration-Exploitation Dilemma Solving Methods
 
+**Medium article for this repo - [HERE](https://amshra267.medium.com/tackling-exploration-exploitation-dilemma-in-k-armed-bandits-598c0329cf88)**
+
 In ths repo I implemented two techniques for tackling mentioned tradeoff.
 Methods Include:-
  - Epsilon Greedy (With different epsilons)

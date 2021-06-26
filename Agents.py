@@ -186,3 +186,5 @@ class ThomspsonSamplingAgent:
     
         return self.logging.all_rewards, self.logging.all_actions
 
+class DoubleSampling:
+    pass

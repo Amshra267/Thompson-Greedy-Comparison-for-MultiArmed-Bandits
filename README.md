@@ -2,16 +2,17 @@
 
 **Medium article for this repo - [HERE](https://amshra267.medium.com/tackling-exploration-exploitation-dilemma-in-k-armed-bandits-598c0329cf88)**
 
-In ths repo I implemented two techniques for tackling mentioned tradeoff.
+In ths repo I implemented two + one(Working) techniques for tackling mentioned tradeoff.
 Methods Include:-
  - Epsilon Greedy (With different epsilons)
  - Thompson Sampling(also known as posterior sampling)
+ - Double Sampling(Working on it)
 
 The reason for choosing these two only is to show the upper and lower bounds as epsilons are a starting point in dealing with these tradeoffs and Thompson Sampling is considered a recent state of the Art in this field.
 
 <p align = "center">
 <b>ENV SPECIFICATIONS</b> - A 10 arm testbed is simulated as same demonstrated in Sutton-Barto Book.
-<image width = "600" height = "400" src = True_Rewards.png><br/>
+<image width = "600" height = "400" src = "assets/True_Rewards.png"><br/>
 True Reward distribution (Here Action-2 is best)
 </p>
 
@@ -28,14 +29,18 @@ and TS
 
 <p align = "center">
 <b>Averaged Over 2500 independent runs with 1500 timesteps</b></br> 
-<image width = "500" height = "300" src = Comparisons.png></br>
+<image width = "500" height = "300" src = assets/Comparisons.png></br>
 <b>Comparison</b></br>
 </br>
-<image width = "700" height = "300" src = Optimal_Actions.png><br/>
+<image width = "700" height = "300" src = assets/Optimal_Actions.png><br/>
 <b>Percentage Actions selected for epsilon = 0.01 and TS</b></br>
 </br>
 </p>
 
 **Conclusion** -> epsilon = 0.01 can be considered best for eps-greedies as it is increasing but pretty slow and the percentage Optimal Actions for it is Around 80% in later stages, on the other hand Thomsan Sampling shows a significant improvement in these results as it quickly explores and then exploit the optimal one with percentage goes upto almost 100 even very early!!.
 
-In case you want to know more about TS visit this [Reference](Thompson_Sampling.pdf).
+In case you want to know more about TS visit this [Reference](assets/Thompson_Sampling.pdf).
+
+## Updates:
+ - Working on Adding another generalized version of Thompson Sampling known as **DoubleSampling**. Code will be adopted as a modification from this paper - [Bayesian bandits: balancing the
+exploration-exploitation tradeoff via double sampling](assets/DoubleSampling.pdf)

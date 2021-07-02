@@ -2,7 +2,7 @@ from typing import List, Tuple
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from Agents import Bandit, EpsilonGreedyAgent, ThomspsonSamplingAgent
+from Agents import Bandit, EpsilonGreedyAgent, ThomspsonSamplingAgent, OTS
 import pandas as pd
 
 
@@ -24,26 +24,29 @@ def compare_epsilons_and_TS(
             if epsilon == "TS":
                 print("Running TS for simulation_num  = {}".format(n+1))
                 agent = ThomspsonSamplingAgent(bandits=bandits)
+            elif epsilon == "OTS":
+                print("Running oTS for simulation_num  = {}".format(n+1))
+                agent = OTS(bandits=bandits)
             else:
-                print("Running epsilonwith epsilon = {} for simulation_num  = {}".format(epsilon, n+1))
+                print("Running epsilon with epsilon = {} for simulation_num  = {}".format(epsilon, n+1))
                 agent = EpsilonGreedyAgent(bandits=bandits, epsilon=epsilon)
             #   print(timesteps)
             rewards, actions = agent.actions(timesteps)
             Agents_rewards[ag]+=rewards  # aadding rewards for averaging
-            ax1.plot(np.divide(Agents_rewards[ag], n+1), label = "epsilon = " + str(epsilon) if epsilon !="TS" else "TS")
+            ax1.plot(np.divide(Agents_rewards[ag], n+1), label = "epsilon = " + str(epsilon) if type(epsilon)!=str else str(epsilon))
             ax1.legend()
             for j in range(len(bandits_true_means)):  # loop over all actions to find the Average percentage of each action at a timestep
                 Agents_actions[ag][j] += np.uint8(np.array(actions)==j)
         
         ax1.set_xlabel("iteration")
         ax1.set_ylabel("Average_Expected_reward")
-        plt.savefig("Comparisons")
+        plt.savefig("Comparisons_with_OTS")
         ax1.clear()
         
     return Agents_actions
 
-epsilons = [0, 0.01, 0.1, "TS"]
-bandits_means = list(np.random.randn(10)) # 10 bandits sampled from standard normal distribution
+epsilons = [0, 0.01, 0.1, "TS", "OTS"]
+bandits_means = list(np.random.normal(loc=0, scale = 1, size = 10)) # 10 bandits sampled from standard normal distribution
 
 # Finding the true optimal action of a particular run with it expected value for each action
 print("True Order of Optimal Actions is")
@@ -72,18 +75,23 @@ if __name__ == "__main__":
     timesteps = 1500
     num_simulations = 2500
     Agents_actions = compare_epsilons_and_TS(epsilons, bandits_means, timesteps, num_simulations)
-    fig, (ax1, ax2) = plt.subplots(figsize = (10,5), ncols= 2) 
+    fig, (ax1, ax2, ax3) = plt.subplots(figsize = (15,5), ncols= 3) 
     for i in range(len(bandits_means)):
         ax1.plot(np.divide(Agents_actions[1][i], num_simulations)*100, label = "Action = " + str(i))
         ax2.plot(np.divide(Agents_actions[3][i], num_simulations)*100, label = "Action = " + str(i))
+        ax3.plot(np.divide(Agents_actions[4][i], num_simulations)*100, label = "Action = " + str(i))
     ax1.legend()
     ax2.legend()
+    ax3.legend()
     ax1.set_xlabel("Iterations")
     ax1.set_ylabel("Average Optimal Action Percentage")
     ax1.set_title("For Greedy agent with epsilon = 0.01")
     ax2.set_xlabel("Iterations")
     ax2.set_ylabel("Average Optimal Action Percentage")
     ax2.set_title("For TS")
-    plt.savefig("Optimal_Actions.png")
+    ax3.set_xlabel("Iterations")
+    ax3.set_ylabel("Average Optimal Action Percentage")
+    ax3.set_title("For OTS")
+    plt.savefig("Optimal_Actions_with_OTS.png")
 
     print("Ranks = ", sort_indices)  # Again printing in the last to see

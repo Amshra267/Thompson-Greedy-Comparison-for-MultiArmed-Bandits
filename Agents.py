@@ -28,7 +28,7 @@ class Bandit:
 
         with mean = self.mean and sigma = 1
         """
-        return np.random.randn()+self.mean
+        return np.random.normal(loc = 0, scale = 1)+self.mean
 
 class Logging:
     """
@@ -48,6 +48,7 @@ class Logging:
         self.all_actions.append(bandit.id)
         self.record[bandit.id]['actions'] += 1
         self.record[bandit.id]['reward'] += reward
+        
 
     def __getitem__(self, bandit):
         return self.record[bandit.id]
@@ -186,6 +187,17 @@ class ThomspsonSamplingAgent:
     
         return self.logging.all_rewards, self.logging.all_actions
 
-class OTS:
-    """Optimistic Thompson Sampling Agent"""
-    pass
+class OTS(ThomspsonSamplingAgent):
+    """Optimistic Thompson Sampling Agent
+    Subclassing Thompson Sampling Agent only for _changing _get_max_sampled_bandit function"""
+   
+    def _get_max_sampled_bandit(self)->Bandit:
+        """
+        this function is used to estimate model based on mean/mode
+        """
+        estimates = []
+        for bandit in self.bandits:
+            Qth = np.random.normal(loc =self.mu[bandit.id], scale = self.var[bandit.id])
+            f_hat = self.mu[bandit.id]#computing moving_average here 
+            estimates.append(max(Qth, f_hat))
+        return self.bandits[np.argmax(estimates)]

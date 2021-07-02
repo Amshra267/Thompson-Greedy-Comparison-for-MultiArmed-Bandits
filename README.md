@@ -2,11 +2,10 @@
 
 **Medium article for this repo - [HERE](https://amshra267.medium.com/tackling-exploration-exploitation-dilemma-in-k-armed-bandits-598c0329cf88)**
 
-In ths repo I implemented two + one(Working) techniques for tackling mentioned tradeoff.
+In ths repo I implemented two techniques for tackling mentioned tradeoff.
 Methods Include:-
  - Epsilon Greedy (With different epsilons)
- - Thompson Sampling(also known as posterior sampling)
- - OPtimistic Bayesian Sampling(Working on it)
+ - Thompson Sampling(also known as posterior samplin
 
 The reason for choosing these two only is to show the upper and lower bounds as epsilons are a starting point in dealing with these tradeoffs and Thompson Sampling is considered a recent state of the Art in this field.
 
@@ -42,4 +41,4 @@ and TS
 In case you want to know more about TS visit this [Reference](assets/Thompson_Sampling.pdf).
 
 ## Updates:
- - Working on Adding another version of Thompson Sampling known as **Optimistic Bayesian Sampling**. For Info about the paper and Algorithm, i read this papaer - [Optimistic Bayesian Sampling for Contextual Bandits](assets/OTS.pdf)
+ - Added another version of Thompson Sampling known as **Optimistic Bayesian Sampling**. For Info about the paper and Algorithm, read this papaer - [Optimistic Bayesian Sampling for Contextual Bandits](assets/OTS.pdf)

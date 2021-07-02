@@ -6,7 +6,7 @@ In ths repo I implemented two + one(Working) techniques for tackling mentioned t
 Methods Include:-
  - Epsilon Greedy (With different epsilons)
  - Thompson Sampling(also known as posterior sampling)
- - Double Sampling(Working on it)
+ - OPtimistic Bayesian Sampling(Working on it)
 
 The reason for choosing these two only is to show the upper and lower bounds as epsilons are a starting point in dealing with these tradeoffs and Thompson Sampling is considered a recent state of the Art in this field.
 
@@ -42,5 +42,4 @@ and TS
 In case you want to know more about TS visit this [Reference](assets/Thompson_Sampling.pdf).
 
 ## Updates:
- - Working on Adding another generalized version of Thompson Sampling known as **DoubleSampling**. Code will be adopted as a modification from this paper - [Bayesian bandits: balancing the
-exploration-exploitation tradeoff via double sampling](assets/DoubleSampling.pdf)
+ - Working on Adding another version of Thompson Sampling known as **Optimistic Bayesian Sampling**. For Info about the paper and Algorithm, i read this papaer - [Optimistic Bayesian Sampling for Contextual Bandits](assets/OTS.pdf)
